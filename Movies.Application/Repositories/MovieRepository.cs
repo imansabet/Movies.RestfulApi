@@ -47,6 +47,12 @@ namespace Movies.Application.Repositories
 
                 """, new { id }));
 
+            var result = await connection.ExecuteAsync(new CommandDefinition("""
+                    delete from movies where id = @id
+
+                """, new { id }));
+
+
             transaction.Commit();
             return result > 0;
 
