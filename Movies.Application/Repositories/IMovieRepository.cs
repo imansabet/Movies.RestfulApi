@@ -10,4 +10,5 @@ public interface IMovieRepository
     Task<Movie?> GetBySlugAsync(string slug);
     Task<IEnumerable<Movie>> GetAllAsync();
     Task<bool> DeleteByIdAsync(Guid id);
+    Task<bool> ExistsByIdAsync(Guid id);
 }
