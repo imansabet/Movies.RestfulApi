@@ -3,6 +3,7 @@ using Dapper;
 using Movies.Application.Database;
 using Movies.Application.Models;
 using System.Text.RegularExpressions;
+using System.Threading;
 
 namespace Movies.Application.Repositories
 {
@@ -13,7 +14,7 @@ namespace Movies.Application.Repositories
         {
             _dbConnectionFactory = _dbConnectionFactory;
         }
-        public async Task<bool> CreateAsync(Movie movie)
+        public async Task<bool> CreateAsync(Movie movie, CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             using var transaction = connection.BeginTransaction();
@@ -37,7 +38,7 @@ namespace Movies.Application.Repositories
             return result > 0;
         }
 
-        public async Task<bool> DeleteByIdAsync(Guid id)
+        public async Task<bool> DeleteByIdAsync(Guid id,CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             using var transaction = connection.BeginTransaction();
@@ -59,7 +60,7 @@ namespace Movies.Application.Repositories
 
         }
 
-        public async Task<bool> ExistsByIdAsync(Guid id)
+        public async Task<bool> ExistsByIdAsync(Guid id , CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             return await connection.ExecuteScalarAsync<bool>(new CommandDefinition("""
@@ -69,7 +70,7 @@ namespace Movies.Application.Repositories
 
         }
 
-        public async Task<IEnumerable<Movie>> GetAllAsync()
+        public async Task<IEnumerable<Movie>> GetAllAsync(CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             var result = await connection.QueryAsync(new CommandDefinition(""""
@@ -87,7 +88,7 @@ namespace Movies.Application.Repositories
         }
 
 
-        public async Task<Movie?> GetByIdAsync(Guid id)
+        public async Task<Movie?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(
@@ -113,7 +114,7 @@ namespace Movies.Application.Repositories
 
         }
 
-        public async Task<Movie?> GetBySlugAsync(string slug)
+        public async Task<Movie?> GetBySlugAsync(string slug, CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             var movie = await connection.QuerySingleOrDefaultAsync<Movie>(
@@ -138,7 +139,7 @@ namespace Movies.Application.Repositories
             return movie;
         }
 
-        public async Task<bool> UpdateAsync(Movie movie)
+        public async Task<bool> UpdateAsync(Movie movie, CancellationToken cancellationToken = default)
         {
             using var connection = await _dbConnectionFactory.CreateConnectionAsync();
             using var transaction = connection.BeginTransaction();
