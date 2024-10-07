@@ -9,7 +9,6 @@ using Movies.Contracts.Requests;
 
 namespace Movies.Api.Controllers
 {
-    [Authorize]
     //[Route("api")]
     [ApiController]
     public class MoviesController : ControllerBase
@@ -21,7 +20,7 @@ namespace Movies.Api.Controllers
             _movieService = movieService;
         }
 
-
+        [Authorize(AuthConstants.AdminUserClaimName)]
         [HttpPost(ApiEndpoints.Movies.Create)]
         public async Task<IActionResult> Create([FromBody] CreateMovieRequest request , CancellationToken cancellationToken )
         {
