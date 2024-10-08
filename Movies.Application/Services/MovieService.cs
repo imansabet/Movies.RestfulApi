@@ -22,9 +22,9 @@ public class MovieService : IMovieService
         return  await _movieRepository.CreateAsync(movie,cancellationToken);
     }
 
-    public Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public Task<bool> DeleteByIdAsync(Guid id,Guid? userid = default, CancellationToken cancellationToken = default)
     {
-        return _movieRepository.DeleteByIdAsync(id, cancellationToken);
+        return _movieRepository.DeleteByIdAsync(id,, cancellationToken);
     }
 
     public  Task<IEnumerable<Movie>> GetAllAsync(CancellationToken cancellationToken = default)
