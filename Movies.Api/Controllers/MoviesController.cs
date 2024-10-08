@@ -51,8 +51,9 @@ namespace Movies.Api.Controllers
             var movies = await _movieService.GetAllAsync( cancellationToken);
             var moviesResponse = movies.MapToResponse();
             return Ok(moviesResponse);
-        }
+        }   
 
+        [Authorize(AuthConstants.TrustedMemberPoilcyname )]
         [HttpPut(ApiEndpoints.Movies.Update)]
         public async Task<IActionResult> Update([FromRoute] Guid id,
             [FromBody] UpdateMovierequest request, CancellationToken cancellationToken)
@@ -68,6 +69,8 @@ namespace Movies.Api.Controllers
             var response = movie.MapToResponse();
             return Ok(response);
         }
+
+        [Authorize(AuthConstants.AdminUserClaimName)]
         [HttpPut(ApiEndpoints.Movies.Delete)]
         public async Task<IActionResult> Delete([FromRoute] Guid id, CancellationToken cancellationToken)
         {
